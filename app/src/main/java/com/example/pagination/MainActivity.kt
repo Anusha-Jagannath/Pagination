@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel = ViewModelProvider(this).get(QuoteViewModel::class.java)
-        viewModel.getQuotes()
+        //viewModel.getQuotes()
 
         setupRecyclerView()
         observeChanges()
@@ -31,9 +31,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeChanges() {
-        viewModel.quoteList.observe(this) {
+        viewModel.data.observe(this) {
             it?.let {
-                adapter.differ.submitList(it.results)
+                // adapter.differ.submitList(it.results)
+                adapter.submitData(lifecycle, it)
             }
         }
     }

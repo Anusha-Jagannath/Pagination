@@ -2,14 +2,14 @@ package com.example.pagination.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pagination.R
 import com.example.pagination.databinding.ItemQuoteBinding
 import com.example.pagination.model.Result
 
-class QuoteAdapter : RecyclerView.Adapter<QuoteViewHolder>() {
+class QuoteAdapter : PagingDataAdapter<Result, QuoteViewHolder>(differUtil) {
     private lateinit var binding: ItemQuoteBinding
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuoteViewHolder {
         binding = ItemQuoteBinding.bind(
@@ -19,13 +19,15 @@ class QuoteAdapter : RecyclerView.Adapter<QuoteViewHolder>() {
         return QuoteViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return differ.currentList.size
-    }
+//    override fun getItemCount(): Int {
+//        return differ.currentList.size
+//    }
 
     override fun onBindViewHolder(holder: QuoteViewHolder, position: Int) {
-        val currentItem = differ.currentList[position]
-        holder.bind(currentItem)
+        val currentItem = getItem(position)
+        if (currentItem != null) {
+            holder.bind(currentItem)
+        }
     }
 
 
@@ -42,7 +44,7 @@ class QuoteAdapter : RecyclerView.Adapter<QuoteViewHolder>() {
         }
     }
 
-    val differ = AsyncListDiffer(this, differUtil)
+    //val differ = AsyncListDiffer(this, differUtil)
 }
 
 class QuoteViewHolder(private val binding: ItemQuoteBinding) :
